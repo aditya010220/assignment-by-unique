@@ -32,6 +32,13 @@ function createApp() {
     });
   });
 
+  // Serve static web dashboard
+  const path = require('path');
+  app.use(express.static(path.join(__dirname, 'public')));
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
+
   // Routes
   app.use('/webhook', webhookRouter);
   app.use('/leads', leadsRouter);

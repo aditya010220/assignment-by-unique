@@ -15,7 +15,16 @@ function initSocket(httpServer) {
   });
 
   io.on('connection', (socket) => {
-    // Client connected
+    socket.on('test-client-lead', async (lead) => {
+      try {
+        const { leadStore } = require('../services/leadStore');
+        await leadStore.save(lead);
+        io.emit('new-lead', lead);
+      } catch (err) {
+        console.error('Error handling simulated test lead:', err);
+      }
+    });
+
     socket.on('disconnect', () => {
       // Client disconnected
     });
